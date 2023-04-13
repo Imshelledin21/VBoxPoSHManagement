@@ -1,4 +1,4 @@
-function VM-Start {
+function Start-VM {
 param(
     [string] $vm_boxname = "Ubuntu-Default"
 )
@@ -42,4 +42,4 @@ ssh $vm_username@$GuestIpAddress
 
 }
 
-Export-ModuleMember -Function VM-Start
+Export-ModuleMember -Function Start-VM
