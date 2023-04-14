@@ -1,14 +1,18 @@
-function Copy-VM {
-    param(
+Function Copy-VM {
+    Param(
         [string] $VmToClone = "Ubuntu-Default",
         [string] $NewVmName,
         [bool]   $AutoStart = $true
     )
 
-    VBoxManage clonevm $VmToClone --name $NewVmName --register
+    $SnapshotName = "$NewVmName Snapshot"
+
+    VBoxManage snapshot $VmToClone take "SnapshotName" --description "Snapshot for linked clone: $NewVmName"
+    VBoxManage clonevm $VmToClone --name $NewVmName --options "Link" --snapshot "SnapshotName" --register
+    VBoxManage snapshot $VmToClone delete "SnapshotName"
 
     if ($AutoStart -eq $true){
-        VM-Start $NewVmName
+        Start-VM -vm_boxname $NewVmName -StartingFromClone $true
     }
 }
 Export-ModuleMember -Function Copy-VM
