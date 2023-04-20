@@ -7,9 +7,9 @@ Function Copy-VM {
 
     $SnapshotName = "$VMName Snapshot"
 
-    VBoxManage snapshot $CloneName take "SnapshotName" --description "Snapshot for linked clone: $VMName"
-    VBoxManage clonevm $CloneName --name $VMName --options "Link" --snapshot "SnapshotName" --register
-    VBoxManage snapshot $CloneName delete "SnapshotName"
+    VBoxManage snapshot $CloneName take "$SnapshotName" --description "Snapshot for linked clone: $VMName"
+    VBoxManage clonevm $CloneName --name $VMName --options "Link" --snapshot "$SnapshotName" --register
+    VBoxManage snapshot $CloneName delete "$SnapshotName"
 
     if ($AutoStart -eq $true){
         Start-VM -VMName $VMName -StartingFromClone $true
